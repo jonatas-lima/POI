@@ -1,0 +1,24 @@
+{
+  "name": "poi-projeto-grupo11",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poi-2022-1/poi-projeto-grupo11.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/poi-2022-1/poi-projeto-grupo11/issues"
+  },
+  "homepage": "https://github.com/poi-2022-1/poi-projeto-grupo11#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

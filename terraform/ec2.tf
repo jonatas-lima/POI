@@ -10,6 +10,10 @@ resource "aws_instance" "POI-CONTROL-PLANE" {
   vpc_security_group_ids      = [aws_security_group.POI-SG.id]
   subnet_id                   = aws_subnet.POI-PUBLIC-SUBNET.id
   associate_public_ip_address = true
+
+  tags = {
+    "Name" = "CONTROL-PLANE"
+  }
 }
 
 resource "aws_instance" "POI-WORKER" {
@@ -21,4 +25,8 @@ resource "aws_instance" "POI-WORKER" {
   vpc_security_group_ids      = [aws_security_group.POI-SG.id]
   subnet_id                   = aws_subnet.POI-PUBLIC-SUBNET.id
   associate_public_ip_address = true
+
+  tags = {
+    "Name" = "WORKER-${count.index}"
+  }
 }

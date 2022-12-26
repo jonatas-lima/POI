@@ -1,0 +1,3 @@
+[submodule "ansible/roles/prometheus"]
+	path = ansible/roles/prometheus
+	url = https://github.com/cloudalchemy/ansible-prometheus/tree/4.0.0

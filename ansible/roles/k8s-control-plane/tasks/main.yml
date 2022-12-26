@@ -1,13 +1,26 @@
 ---
+- name: Send tls config to control-plane
+  ansible.builtin.copy:
+    src: tlsconfig.yml
+    dest: /tmp/tlsconfig.yml
+
 - name: Init cluster with kubeadm
   ansible.builtin.shell: |
-    kubeadm init --pod-network-cidr=192.168.1.0/24
+    kubeadm init --config /tmp/tlsconfig.yml
 
 - name: Create .kube directory
   ansible.builtin.file:
     path: /home/{{ ansible_user }}/.kube
     state: directory
     mode: '0755'
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+
+- name: Create alias 'k' for kubectl
+  ansible.builtin.shell: |
+    echo 'source <(kubectl completion bash)' >> /home/{{ ansible_user }}/.bashrc
+    echo 'alias k=kubectl' >> /home/{{ ansible_user }}/.bashrc
+    echo 'complete -o default -F __start_kubectl k' >> /home/{{ ansible_user }}/.bashrc
 
 - name: Copy admin.conf from /etc/kubernetes to .kube
   ansible.builtin.copy:
@@ -26,12 +39,14 @@
     dest: "{{ playbook_dir }}/roles/k8s-worker/files/"
     flat: true
 
-- name: Config pod network plugin with Weave
+- name: Config pod network plugin
   become: false
   ansible.builtin.shell: |
-    kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml
+    kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.24.5/manifests/calico.yaml && \
+    kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.24.5/manifests/calicoctl-etcd.yaml
+    echo 'alias calicoctl="kubectl exec -i -n kube-system calicoctl -- /calicoctl"' >> /home/{{ ansible_user }}/.bashrc
 
 - name: Taint control-plane node
   become: false
   ansible.builtin.shell: |
-    kubectl taint nodes --all node-role.kubernetes.io/control-plane-
+    kubectl taint nodes --all node-role.kubernetes.io/control-plane- node-role.kubernetes.io/master-

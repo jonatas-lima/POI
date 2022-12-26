@@ -10,13 +10,15 @@
     state: present
     filename: kubernetes.list
 
-- name: Update apt repository and install kubernetes
+- name: Update apt repository and install kubernetes and its dependencies
   ansible.builtin.apt:
     pkg:
       - kubectl=1.24.0-00
       - kubeadm=1.24.0-00
       - kubelet=1.24.0-00
       - containerd
+      - apt-transport-https
+      - ca-certificates
     update_cache: true
 
 - name: Config K8s modules

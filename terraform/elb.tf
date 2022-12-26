@@ -28,7 +28,7 @@ resource "aws_lb_target_group" "POI-LB-TG" {
 }
 
 resource "aws_lb_target_group_attachment" "POI-LB-ATTACHMENT-WORKERS" {
-  count = 2
+  count            = 2
   target_group_arn = aws_lb_target_group.POI-LB-TG.arn
   target_id        = aws_instance.POI-WORKER[count.index].id
 }

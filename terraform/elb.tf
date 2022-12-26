@@ -3,8 +3,6 @@ resource "aws_lb" "POI-LB" {
   internal           = false
   load_balancer_type = "network"
   subnets            = [aws_subnet.POI-PUBLIC-SUBNET.id]
-
-  enable_deletion_protection = true
 }
 
 resource "aws_lb_listener" "POI-LB-LISTENER" {

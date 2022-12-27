@@ -2,7 +2,15 @@ resource "aws_lb" "POI-LB" {
   name               = "POI-LB"
   internal           = false
   load_balancer_type = "network"
-  subnets            = [aws_subnet.POI-PUBLIC-SUBNET.id]
+
+  subnet_mapping {
+    subnet_id     = aws_subnet.POI-PUBLIC-SUBNET.id
+    allocation_id = aws_eip.POI-EIP.id
+  }
+
+  depends_on = [
+    aws_eip.POI-EIP
+  ]
 }
 
 resource "aws_lb_listener" "POI-LB-LISTENER" {

@@ -10,28 +10,21 @@
     state: present
     filename: kubernetes.list
 
+- name: Install Docker
+  become: false
+  ansible.builtin.script: install_docker.sh
+
 - name: Update apt repository and install kubernetes and its dependencies
   ansible.builtin.apt:
     pkg:
       - kubectl=1.24.0-00
       - kubeadm=1.24.0-00
       - kubelet=1.24.0-00
-      - containerd
       - apt-transport-https
       - ca-certificates
+      - git
+      - golang-go
     update_cache: true
-
-- name: Create /etc/containerd dir
-  ansible.builtin.file:
-    path: /etc/containerd
-    state: directory
-    mode: '0744'
-
-- name: Set default config to containerd
-  ansible.builtin.shell: |
-    containerd config default > /etc/containerd/config.toml
-  notify:
-  - Restart containerd
 
 - name: Config K8s modules
   ansible.builtin.template:
@@ -50,3 +43,6 @@
 
 - name: Turn off the swap
   ansible.builtin.shell: swapoff -a
+
+- name: Install container runtime cri-dockerd
+  ansible.builtin.script: install_cri-dockerd.sh

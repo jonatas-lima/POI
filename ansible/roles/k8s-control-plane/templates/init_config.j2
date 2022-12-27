@@ -1,0 +1,11 @@
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: ClusterConfiguration
+networking:
+  serviceSubnet: "{{ pod_network_cidr }}"
+---
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: InitConfiguration
+localAPIEndpoint:
+  advertiseAddress: "{{ apiserver_advertise_address }}"
+nodeRegistration:
+  criSocket: "/var/run/cri-dockerd.sock"

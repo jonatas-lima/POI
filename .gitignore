@@ -1,5 +1,6 @@
 node_modules
 .env
-.tfvars
+*.tfvars
 .terraform*
 .ssh
+terraform.plan

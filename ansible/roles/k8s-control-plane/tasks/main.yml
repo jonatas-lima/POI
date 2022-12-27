@@ -1,12 +1,12 @@
 ---
-- name: Send tls config to control-plane
-  ansible.builtin.copy:
-    src: tlsconfig.yml
-    dest: /tmp/tlsconfig.yml
+- name: Send init config to control-plane
+  ansible.builtin.template:
+    src: init_config.j2
+    dest: /tmp/init_config.yml
 
 - name: Init cluster with kubeadm
   ansible.builtin.shell: |
-    kubeadm init --config /tmp/tlsconfig.yml
+    kubeadm init --config /tmp/init_config.yml
 
 - name: Create .kube directory
   ansible.builtin.file:
@@ -31,7 +31,7 @@
     group: "{{ ansible_user }}"
 
 - name: Print join command to worker nodes
-  ansible.builtin.shell: kubeadm token create --print-join-command | tee /tmp/join_command.sh
+  ansible.builtin.shell: echo "$(kubeadm token create --print-join-command) --cri-socket unix:///var/run/cri-dockerd.sock" | tee /tmp/join_command.sh
 
 - name: Fetching /tmp/join_command.sh to k8s-worker/files
   ansible.builtin.fetch:
@@ -42,4 +42,5 @@
 - name: Config pod network plugin
   become: false
   ansible.builtin.shell: |
-    kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml
+    curl https://projectcalico.docs.tigera.io/manifests/calico.yaml -O
+    kubectl apply -f calico.yaml

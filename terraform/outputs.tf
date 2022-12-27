@@ -15,5 +15,9 @@ output "worker-private-ip" {
 }
 
 output "lb-address" {
-  value = aws_lb.POI-LB.dns_name
+  value = aws_eip.POI-EIP.public_ip
+}
+
+output "pod-subnet-cidr" {
+  value = aws_subnet.POI-PUBLIC-SUBNET.cidr_block
 }

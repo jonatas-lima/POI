@@ -42,11 +42,4 @@
 - name: Config pod network plugin
   become: false
   ansible.builtin.shell: |
-    kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.24.5/manifests/calico.yaml && \
-    kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.24.5/manifests/calicoctl-etcd.yaml
-    echo 'alias calicoctl="kubectl exec -i -n kube-system calicoctl -- /calicoctl"' >> /home/{{ ansible_user }}/.bashrc
-
-- name: Taint control-plane node
-  become: false
-  ansible.builtin.shell: |
-    kubectl taint nodes --all node-role.kubernetes.io/control-plane- node-role.kubernetes.io/master-
+    kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml

@@ -20,17 +20,6 @@ resource "aws_subnet" "POI-PUBLIC-SUBNET" {
   }
 }
 
-resource "aws_subnet" "POI-PRIVATE-SUBNET" {
-  vpc_id                  = aws_vpc.POI-VPC.id
-  cidr_block              = "192.168.2.0/24"
-  map_public_ip_on_launch = false
-  availability_zone       = "us-east-1a"
-
-  tags = {
-    Name = "POI-PRIVATE-SUBNET"
-  }
-}
-
 resource "aws_internet_gateway" "POI-IGW" {
   vpc_id = aws_vpc.POI-VPC.id
 

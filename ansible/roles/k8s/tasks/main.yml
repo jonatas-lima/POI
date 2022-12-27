@@ -21,6 +21,18 @@
       - ca-certificates
     update_cache: true
 
+- name: Create /etc/containerd dir
+  ansible.builtin.file:
+    path: /etc/containerd
+    state: directory
+    mode: '0744'
+
+- name: Set default config to containerd
+  ansible.builtin.shell: |
+    containerd config default > /etc/containerd/config.toml
+  notify:
+  - Restart containerd
+
 - name: Config K8s modules
   ansible.builtin.template:
     src: k8s_modules.conf.j2

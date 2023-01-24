@@ -26,7 +26,7 @@ resource "aws_lb_listener" "POI-LB-LISTENER" {
 
 resource "aws_lb_target_group" "POI-LB-TG" {
   name     = "POI-LB-TG"
-  port     = 80
+  port     = 30000
   protocol = "TCP"
   vpc_id   = aws_vpc.POI-VPC.id
 

@@ -2,7 +2,7 @@
 
 function provision_infra() {
   cd terraform && \
-      terraform apply && \
+      terraform apply -auto-approve && \
       terraform output -json | tee output.json && cd ..
 }
 

@@ -17,6 +17,10 @@ function execCmd(cmd) {
   })
 }
 
+routes.get('/health', (req, res) => {
+  return res.send('ok').status(200)
+})
+
 routes.get('/cpu/stress', (req, res) => {
   execCmd('stress-ng --cpu 0 --cpu-method all -t 1m')
 })

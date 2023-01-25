@@ -1,0 +1,26 @@
+---
+- name: Install K8S on cluster
+  hosts: all
+  become: true
+  roles:
+    - k8s
+
+- name: Initialize cluster on control-plane
+  hosts: control-plane
+  become: true
+  gather_facts: false
+  roles:
+    - k8s-control-plane
+
+- name: Worker nodes join control plane node
+  hosts: workers
+  become: true
+  gather_facts: false
+  roles:
+    - k8s-worker
+
+- name: Install prometheus on control-plane
+  hosts: control-plane
+  become: true
+  roles:
+    - prometheus

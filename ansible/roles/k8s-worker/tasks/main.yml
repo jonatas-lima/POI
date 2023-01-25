@@ -1,0 +1,8 @@
+---
+- name: Join control-plane K8S cluster
+  ansible.builtin.script: join_command.sh
+
+- name: Install stress-ng
+  ansible.builtin.apt:
+    name: stress-ng
+    state: present

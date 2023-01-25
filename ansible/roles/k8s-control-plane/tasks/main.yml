@@ -1,0 +1,46 @@
+---
+- name: Send init config to control-plane
+  ansible.builtin.template:
+    src: init_config.j2
+    dest: /tmp/init_config.yml
+
+- name: Init cluster with kubeadm
+  ansible.builtin.shell: |
+    kubeadm init --config /tmp/init_config.yml
+
+- name: Create .kube directory
+  ansible.builtin.file:
+    path: /home/{{ ansible_user }}/.kube
+    state: directory
+    mode: '0755'
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+
+- name: Create alias 'k' for kubectl
+  ansible.builtin.shell: |
+    echo 'source <(kubectl completion bash)' >> /home/{{ ansible_user }}/.bashrc
+    echo 'alias k=kubectl' >> /home/{{ ansible_user }}/.bashrc
+    echo 'complete -o default -F __start_kubectl k' >> /home/{{ ansible_user }}/.bashrc
+
+- name: Copy admin.conf from /etc/kubernetes to .kube
+  ansible.builtin.copy:
+    remote_src: true
+    src: /etc/kubernetes/admin.conf
+    dest: /home/{{ ansible_user }}/.kube/config
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+
+- name: Print join command to worker nodes
+  ansible.builtin.shell: echo "$(kubeadm token create --print-join-command) --cri-socket unix:///var/run/cri-dockerd.sock" | tee /tmp/join_command.sh
+
+- name: Fetching /tmp/join_command.sh to k8s-worker/files
+  ansible.builtin.fetch:
+    src: /tmp/join_command.sh
+    dest: "{{ playbook_dir }}/roles/k8s-worker/files/"
+    flat: true
+
+- name: Config pod network plugin
+  become: false
+  ansible.builtin.shell: |
+    curl https://projectcalico.docs.tigera.io/manifests/calico.yaml -O
+    kubectl apply -f calico.yaml

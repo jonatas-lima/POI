@@ -12,7 +12,9 @@
 
 - name: Install Docker
   become: false
-  ansible.builtin.script: install_docker.sh
+  ansible.builtin.shell: |
+    curl -fsSL https://get.docker.com | bash
+    sudo usermod -aG docker ubuntu
 
 - name: Update apt repository and install kubernetes and its dependencies
   ansible.builtin.apt:
@@ -45,4 +47,15 @@
   ansible.builtin.shell: swapoff -a
 
 - name: Install container runtime cri-dockerd
-  ansible.builtin.script: install_cri-dockerd.sh
+  ansible.builtin.shell: |
+    git clone https://github.com/Mirantis/cri-dockerd.git && \
+    cd cri-dockerd && \
+    mkdir bin && \
+    go build -o bin/cri-dockerd && \
+    mkdir -p /usr/local/bin && \
+    install -o root -g root -m 0755 bin/cri-dockerd /usr/local/bin/cri-dockerd && \
+    cp -a packaging/systemd/* /etc/systemd/system && \
+    sed -i -e "s,/usr/bin/cri-dockerd,/usr/local/bin/cri-dockerd," /etc/systemd/system/cri-docker.service && \
+    systemctl daemon-reload && \
+    systemctl enable --now cri-docker.service && \
+    systemctl enable --now cri-docker.socket

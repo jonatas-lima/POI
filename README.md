@@ -20,10 +20,21 @@
 
 ## Provisionamento
 
+Inicializar o terraform:
+```bash
+$ cd terraform && terraform init
+```
+
 Para provisionar e configurar basta executar:
 ```bash
-$ bash provision.sh
+$ ./provision.sh
 ```
+
+Logar no control plane e adicionar a linha `hostNetwork: true` abaixo da linha `dnsPolicy` no deployment do metrics-server:
+```bash
+$ kubectl edit -n kube-system deployments metrics-server
+```
+
 ### Terraform
 Responsável por provisionar os seguintes recursos na AWS:
 * 1 template de instância (Ubuntu 20.04, t2.medium)
@@ -41,8 +52,28 @@ Ferramenta de configuração remota responsável por:
 * Conectar os _Workers_ ao _Control Plane_
 * Instalar e configurar o Prometheus no _Control Plane_
 
-## Deploy
-TODO
-
 ## Uso
-TODO
+* Rota health:
+```bash
+$ curl http://<<load balancer ip>>/health
+```
+
+* Para estressar a CPU:
+```bash
+$ curl http://<<load balancer ip>>/cpu/stress
+```
+
+* Para estressar a memória:
+```bash
+$ curl http://<<load balancer ip>>/memory/stress
+```
+
+* Para estressar o disco:
+```bash
+$ curl http://<<load balancer ip>>/io/stress
+```
+
+* Dashboard do Prometheus:
+```bash
+$ curl http://<<control plane ip>>:9090
+```

@@ -12,12 +12,20 @@
   roles:
     - k8s-control-plane
 
-- name: Worker nodes join control plane node
+- name: Join worker nodes to control plane node
   hosts: workers
   become: true
   gather_facts: false
   roles:
     - k8s-worker
+
+- name: Apply kubernetes yaml's
+  hosts: control-plane
+  become: false
+  tasks:
+    - name: Apply K8s yaml's
+      ansible.builtin.shell: |
+        kubectl apply -f "/home/{{ ansible_user }}/kubernetes"
 
 - name: Install prometheus on control-plane
   hosts: control-plane

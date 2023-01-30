@@ -44,3 +44,12 @@
   ansible.builtin.shell: |
     curl https://projectcalico.docs.tigera.io/manifests/calico.yaml -O
     kubectl apply -f calico.yaml
+
+- name: Uploading kubernetes yaml's
+  ansible.builtin.copy:
+    src: "{{ playbook_dir }}/roles/k8s-control-plane/files/"
+    dest: "/home/{{ ansible_user }}/kubernetes"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0744'
+    follow: true

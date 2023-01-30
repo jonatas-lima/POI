@@ -3,6 +3,20 @@ resource "aws_security_group" "POI-SG" {
   name   = "POI-SG"
 
   ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = [aws_subnet.POI-PUBLIC-SUBNET.cidr_block]
+  }
+
+  ingress {
+    from_port = 4443
+    to_port = 4443
+    protocol = "tcp"
+    cidr_blocks = [aws_subnet.POI-PUBLIC-SUBNET.cidr_block]
+  }
+
+  ingress {
     from_port   = 30000
     to_port     = 32767
     protocol    = "tcp"

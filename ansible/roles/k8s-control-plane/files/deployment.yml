@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stress-api
+spec:
+  selector:
+    matchLabels:
+      run: stress-api
+  template:
+    metadata:
+      labels:
+        run: stress-api
+    spec:
+      containers:
+      - name: stress-api
+        image: jonatasflima/stress-api:v1
+        ports:
+        - containerPort: 3000
+        resources:
+          limits:
+            cpu: 500m
+            memory: 500Mi
+          requests:
+            cpu: 200m
+            memory: 100Mi

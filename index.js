@@ -29,14 +29,6 @@ routes.get('/memory/stress', (req, res) => {
   execCmd('stress-ng --vm 8 --vm-bytes 80% -t 1m')
 })
 
-routes.get('/io/stress', (req, res) => {
-  execCmd('stress-ng --iomix 2 --iomix-bytes 50% -t 1m')
-})
-
-routes.get('/stress', (req, res) => {
-  execCmd('stress-ng --all 4 -t 1m')
-})
-
 app.use(routes)
 
 app.listen(3000, () =>{

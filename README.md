@@ -20,17 +20,22 @@
 
 ## Provisionamento
 
-Inicializar o terraform:
+1. Inicializar o terraform:
 ```bash
 $ cd terraform && terraform init
 ```
 
-Para provisionar e configurar basta executar:
+2. Criar, se não tiver, uma chave RSA:
+```bash
+$ ssh-keygen -t rsa -b 2048 -f ~/.ssh/id_rsa
+```
+
+3. Provisionar e configurar a infra:
 ```bash
 $ ./provision.sh
 ```
 
-Logar no control plane e adicionar a linha `hostNetwork: true` abaixo da linha `dnsPolicy` no deployment do metrics-server:
+4. Logar no control plane e adicionar a linha `hostNetwork: true` abaixo da linha `dnsPolicy` no deployment do metrics-server:
 ```bash
 $ kubectl edit -n kube-system deployments metrics-server
 ```

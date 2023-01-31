@@ -1,6 +1,6 @@
 variable "keypair_path" {
   type        = string
-  default     = "./.ssh/id_rsa.pub"
+  default     = "~/.ssh/id_rsa.pub"
   description = "Localização da chave ssh no sistema de arquivos"
 }
 

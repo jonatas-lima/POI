@@ -26,9 +26,3 @@
     - name: Apply K8s yaml's
       ansible.builtin.shell: |
         kubectl apply -f "/home/{{ ansible_user }}/kubernetes"
-
-- name: Install prometheus on control-plane
-  hosts: control-plane
-  become: true
-  roles:
-    - prometheus

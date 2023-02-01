@@ -57,6 +57,12 @@ Ferramenta de configuração remota responsável por:
 * Conectar os _Workers_ ao _Control Plane_
 * Instalar e configurar o Prometheus no _Control Plane_
 
+### Kubernetes
+Ferramenta de orquestração de containers em ambientes de alta disponibilidade. Os objetos Kubernetes provisionados foram:
+* 1 _Deployment_
+* 1 _Service_ do tipo **NodePort**
+* 1 _Horizontal Pod Autoscaler_
+
 ## Uso
 * Rota health:
 ```bash

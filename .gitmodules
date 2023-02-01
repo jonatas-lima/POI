@@ -1,4 +1,0 @@
-[submodule "ansible/roles/prometheus/"]
-	path = ansible/roles/prometheus
-	branch = 4.0.0
-	url = https://github.com/cloudalchemy/ansible-prometheus.git

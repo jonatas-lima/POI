@@ -10,9 +10,9 @@ resource "aws_security_group" "POI-SG" {
   }
 
   ingress {
-    from_port = 4443
-    to_port = 4443
-    protocol = "tcp"
+    from_port   = 4443
+    to_port     = 4443
+    protocol    = "tcp"
     cidr_blocks = [aws_subnet.POI-PUBLIC-SUBNET.cidr_block]
   }
 
@@ -47,13 +47,6 @@ resource "aws_security_group" "POI-SG" {
   ingress {
     from_port   = 22
     to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port   = 9090
-    to_port     = 9090
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }

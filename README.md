@@ -63,6 +63,15 @@ Ferramenta de orquestração de containers em ambientes de alta disponibilidade.
 * 1 _Service_ do tipo **NodePort**
 * 1 _Horizontal Pod Autoscaler_
 
+### Zabbix
+Ferramenta de coleta/agrupamento/visualização de métricas. Semelhante ao Prometheus.
+
+#### Configurando
+1. Entrar no endereço `http://<<control plane ip>>/zabbix` e prosseguir com os passos de instalação
+2. Criar os hosts necessários em _Configuration_ -> _Hosts_, selecionando os templates (em **Template/Modules**):
+> * Linux CPU by Zabbix Agent
+> * Linux memory by Zabbix Agent
+
 ### Grafana
 Ferramenta de visualização de dados.
 
@@ -70,7 +79,8 @@ Ferramenta de visualização de dados.
 1. Entrar no endereço `http://<<control plane ip>>:3000` com as credenciais admin:admin
 2. Ir em Configuration -> Plugins -> Zabbix -> Enable
 3. Configurar o datasource do Zabbix
-> 127.0.0.1/zabbix/api_jsonrpc.php
+> * 127.0.0.1/zabbix/api_jsonrpc.php
+4. Criar os dashboards personalizados
 
 ## Uso
 * Rota health:
@@ -91,5 +101,5 @@ $ curl http://<<load balancer ip>>/memory
 
 * Dashboard Grafana:
 ```bash
-$ curl http://<<control plane ip>>:3000
+$ http://<<control plane ip>>:3000
 ```

@@ -68,7 +68,8 @@ Ferramenta de coleta/agrupamento/visualização de métricas. Semelhante ao Prom
 
 #### Configurando
 1. Entrar no endereço `http://<<control plane ip>>/zabbix` e prosseguir com os passos de instalação
-2. Criar os hosts necessários em _Configuration_ -> _Hosts_, selecionando os templates (em **Template/Modules**):
+2. Logar com as credenciais Admin:zabbix
+3. Criar os hosts necessários em _Configuration_ -> _Hosts_, selecionando os templates (em **Template/Modules**):
 > * Linux CPU by Zabbix Agent
 > * Linux memory by Zabbix Agent
 
@@ -79,6 +80,7 @@ Ferramenta de visualização de dados.
 1. Entrar no endereço `http://<<control plane ip>>:3000` com as credenciais admin:admin
 2. Ir em Configuration -> Plugins -> Zabbix -> Enable
 3. Configurar o datasource do Zabbix
+> * **Senha do BD**: zabbix
 > * 127.0.0.1/zabbix/api_jsonrpc.php
 4. Criar os dashboards personalizados
 

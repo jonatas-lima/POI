@@ -1,0 +1,39 @@
+- name: Install zabbix server
+  ansible.builtin.apt:
+    update_cache: true
+    pkg:
+      - zabbix-server-pgsql
+      - zabbix-frontend-php
+      - php8.1-pgsql
+      - zabbix-apache-conf
+      - zabbix-sql-scripts
+      - postgresql
+
+- name: Config Zabbix PostgreSQL user
+  ansible.builtin.shell: |
+    sudo -u postgres psql -c 'create user zabbix' && sudo -u postgres createdb -O zabbix zabbix && \
+    zcat /usr/share/zabbix-sql-scripts/postgresql/server.sql.gz | sudo -u zabbix psql zabbix && \
+    sudo -u postgres psql -c "alter user zabbix with encrypted password 'zabbix'" && \
+    echo 'DBPassword=zabbix' >> /etc/zabbix/zabbix_server.conf
+
+- name: (GAMBI) Rollback 'Server=' option
+  ansible.builtin.shell: |
+    sed -i 's/Server=192.168.1.0\/24/Server=127.0.0.1/' /etc/zabbix/zabbix_agentd.conf
+
+- name: Enable and restart Zabbix server
+  ansible.builtin.systemd:
+    name: zabbix-server
+    enabled: true
+    state: restarted
+
+- name: Enable and restart Zabbix agent
+  ansible.builtin.systemd:
+    name: zabbix-agent
+    enabled: true
+    state: restarted
+
+- name: Enable and restart apache
+  ansible.builtin.systemd:
+    name: apache2
+    enabled: true
+    state: restarted

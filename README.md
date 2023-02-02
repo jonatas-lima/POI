@@ -71,17 +71,13 @@ $ curl http://<<load balancer ip>>/health
 
 * Para estressar a CPU:
 ```bash
-$ curl http://<<load balancer ip>>/cpu/stress
+$ curl http://<<load balancer ip>>/cpu
 ```
 
 * Para estressar a memória:
 ```bash
-$ curl http://<<load balancer ip>>/memory/stress
+$ curl http://<<load balancer ip>>/memory
 ```
-
-* Para estressar o disco:
-```bash
-$ curl http://<<load balancer ip>>/io/stress
 ```
 
 * Dashboard do Prometheus:

@@ -13,7 +13,7 @@ function execCmd(cmd) {
       console.error(stderr)
     }
 
-    console.log(stdout)
+    return stdout
   })
 }
 
@@ -21,12 +21,14 @@ routes.get('/health', (req, res) => {
   return res.send('ok').status(200)
 })
 
-routes.get('/cpu/stress', (req, res) => {
-  execCmd('stress-ng --cpu 0 --cpu-method all -t 1m')
+routes.get('/cpu', (req, res) => {
+  console.log('stressing cpu...')
+  return res.send(execCmd('stress-ng --cpu 0 --cpu-method all --cpu-load 90 -t 1m')).status(200)
 })
 
-routes.get('/memory/stress', (req, res) => {
-  execCmd('stress-ng --vm 8 --vm-bytes 80% -t 1m')
+routes.get('/memory', (req, res) => {
+  console.log('stressing memory...')
+  return res.send(execCmd('stress-ng --vm 10 --vm-bytes 3G -t 1m')).status(200)
 })
 
 app.use(routes)

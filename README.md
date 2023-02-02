@@ -97,7 +97,6 @@ $ curl http://<<load balancer ip>>/cpu
 ```bash
 $ curl http://<<load balancer ip>>/memory
 ```
-```
 
 * Dashboard Grafana:
 ```bash

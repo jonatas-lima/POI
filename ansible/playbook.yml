@@ -26,3 +26,24 @@
     - name: Apply K8s yaml's
       ansible.builtin.shell: |
         kubectl apply -f "/home/{{ ansible_user }}/kubernetes"
+
+- name: Install and configure zabbix-agent
+  hosts: all
+  become: true
+  gather_facts: false
+  roles:
+    - zabbix-agent
+
+- name: Install and configure zabbix-server on control plane
+  hosts: control-plane
+  become: true
+  gather_facts: false
+  roles:
+    - zabbix-server
+
+- name: Install and configure grafana
+  hosts: control-plane
+  become: true
+  gather_facts: false
+  roles:
+    - grafana

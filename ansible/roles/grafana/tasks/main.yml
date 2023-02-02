@@ -1,0 +1,26 @@
+- name: Installing grafana dependencies
+  ansible.builtin.apt:
+    pkg:
+      - software-properties-common
+    update_cache: true
+
+- name: Download and add gpg key
+  ansible.builtin.shell: |
+    wget -q -O - https://packages.grafana.com/gpg.key | apt-key add -
+
+- name: Add grafgana repository to /etc/apt/sources.list.d/grafana.list
+  ansible.builtin.apt_repository:
+    repo: deb https://packages.grafana.com/oss/deb stable main
+    state: present
+    filename: grafana.list
+
+- name: Install grafana package
+  ansible.builtin.apt:
+    pkg: grafana
+    update_cache: true
+  notify: Restart grafana
+
+- name: Installing Zabbix plugin
+  ansible.builtin.shell: |
+    grafana-cli plugins install alexanderzobnin-zabbix-app
+  notify: Restart grafana

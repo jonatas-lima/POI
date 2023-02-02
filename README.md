@@ -63,6 +63,15 @@ Ferramenta de orquestração de containers em ambientes de alta disponibilidade.
 * 1 _Service_ do tipo **NodePort**
 * 1 _Horizontal Pod Autoscaler_
 
+### Grafana
+Ferramenta de visualização de dados.
+
+#### Configurando
+1. Entrar no endereço `http://<<control plane ip>>:3000` com as credenciais admin:admin
+2. Ir em Configuration -> Plugins -> Zabbix -> Enable
+3. Configurar o datasource do Zabbix
+> 127.0.0.1/zabbix/api_jsonrpc.php
+
 ## Uso
 * Rota health:
 ```bash
@@ -80,7 +89,7 @@ $ curl http://<<load balancer ip>>/memory
 ```
 ```
 
-* Dashboard do Prometheus:
+* Dashboard Grafana:
 ```bash
-$ curl http://<<control plane ip>>:9090
+$ curl http://<<control plane ip>>:3000
 ```

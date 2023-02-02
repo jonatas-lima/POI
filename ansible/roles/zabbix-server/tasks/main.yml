@@ -26,6 +26,12 @@
     enabled: true
     state: restarted
 
+- name: Enable and restart Zabbix agent
+  ansible.builtin.systemd:
+    name: zabbix-agent
+    enabled: true
+    state: restarted
+
 - name: Enable and restart apache
   ansible.builtin.systemd:
     name: apache2

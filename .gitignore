@@ -4,3 +4,5 @@ node_modules
 .terraform*
 .ssh
 terraform.plan
+hosts.ini
+output.json

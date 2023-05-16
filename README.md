@@ -4,7 +4,7 @@
 * Provisionar um cluster Kubernetes na AWS
 * Rodar uma aplicação em Kubernetes no cluster
 * Observar que, conforme o consumo de recursos varia, o control plane aumenta ou diminui o número de pods no cluster
-* Monitorar essas métricas via Prometheus
+* Monitorar essas métricas via Zabbix
 
 ## Pré-requisitos
 * Uma conta na AWS com uma chave de acesso e a CLI [instalada](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-prereqs.html) e [configurada](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html)
@@ -13,7 +13,7 @@
 
 ## Arquitetura
 * **Cluster Kubernetes:** 1 nó Control Plane e 2 nós Workers
-* **Prometheus:** Presente no nó do Control Plane
+* **Zabbix:** Presente no nó do Control Plane
 * **Load Balancer:** Redireciona o tráfego para os nós Workers
 
 ![Imagem da arquitetura da infraestrutura](./assets//arquitetura.png)
